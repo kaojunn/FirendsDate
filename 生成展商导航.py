@@ -360,6 +360,12 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
       background: var(--brand-soft);
     }}
 
+    .card-item {{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }}
+
     .card h3 {{
       margin: 0;
       font-size: 16px;
@@ -402,6 +408,12 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
       overflow: hidden;
     }}
 
+    .card-hint {{
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }}
+
     .detail-body {{
       padding: 16px 20px 20px;
     }}
@@ -429,6 +441,18 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
     .detail-section ul {{
       margin: 0;
       padding-left: 18px;
+    }}
+
+    .mobile-detail {{
+      display: none;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      background: var(--panel-soft);
+    }}
+
+    .mobile-detail .detail-section:first-child {{
+      margin-top: 0;
     }}
 
     .detail-actions {{
@@ -467,7 +491,15 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
       }}
 
       .detail-panel {{
-        min-height: auto;
+        display: none;
+      }}
+
+      .results {{
+        grid-template-columns: 1fr;
+      }}
+
+      .card-item.expanded .mobile-detail {{
+        display: block;
       }}
     }}
 
@@ -603,6 +635,7 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
     }};
 
     const allTags = ["全部", ...new Set(exhibitors.flatMap(item => item.tags))];
+    const mobileMediaQuery = window.matchMedia("(max-width: 1120px)");
 
     function escapeHtml(value) {{
       return value
@@ -660,6 +693,10 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
       return filtered;
     }}
 
+    function isMobileLayout() {{
+      return mobileMediaQuery.matches;
+    }}
+
     function renderTagChips() {{
       els.tagChips.innerHTML = allTags.map(tag => {{
         const active = (state.tag || "全部") === tag ? "active" : "";
@@ -682,60 +719,15 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
       els.missingContactCount.textContent = exhibitors.length - contactCount;
     }}
 
-    function renderResults(filtered) {{
-      if (!filtered.length) {{
-        els.results.innerHTML = '<div class="muted">没有匹配结果，请换个关键词或筛选条件。</div>';
-        if (!state.selectedPath) {{
-          els.detailPanel.innerHTML = '<div class="detail-empty">没有可展示的展商。</div>';
-        }}
-        return;
-      }}
-
-      if (!state.selectedPath || !filtered.some(item => item.detail_path === state.selectedPath)) {{
-        state.selectedPath = filtered[0].detail_path;
-      }}
-
-      els.results.innerHTML = filtered.map(item => {{
-        const active = item.detail_path === state.selectedPath ? "active" : "";
-        const contactText = item.has_contact ? "已有联系人" : "待补充联系人";
-        const contactClass = item.has_contact ? "ok" : "warn";
-        const tags = item.tags.map(tag => `<span class="pill">${{escapeHtml(tag)}}</span>`).join("");
-        return `
-          <article class="card ${{active}}" data-path="${{escapeHtml(item.detail_path)}}">
-            <h3>${{escapeHtml(item.name)}}</h3>
-            <div class="meta">
-              <span class="pill">${{escapeHtml(item.zone)}}</span>
-              <span class="pill">${{escapeHtml(item.booth)}}</span>
-              <span class="pill ${{contactClass}}">${{contactText}}</span>
-            </div>
-            <p>${{escapeHtml(item.summary)}}</p>
-            <div class="meta">${{tags}}</div>
-          </article>
-        `;
-      }}).join("");
-
-      els.results.querySelectorAll("[data-path]").forEach(card => {{
-        card.addEventListener("click", () => {{
-          state.selectedPath = card.dataset.path;
-          render();
-        }});
-      }});
-    }}
-
-    function renderDetail(filtered) {{
-      const selected = filtered.find(item => item.detail_path === state.selectedPath);
-      if (!selected) {{
-        els.detailPanel.innerHTML = '<div class="detail-empty">当前筛选结果中没有选中的展商。</div>';
-        return;
-      }}
-
+    function renderDetailContent(selected, options = {{ mobile: false }}) {{
       const links = selected.links.length
         ? `<ul>${{selected.links.map(link => `<li><a href="${{escapeHtml(link)}}" target="_blank" rel="noreferrer">${{escapeHtml(link)}}</a></li>`).join("")}}</ul>`
         : '<p class="muted">待补充</p>';
 
       const tags = selected.tags.map(tag => `<span class="pill">${{escapeHtml(tag)}}</span>`).join("");
+      const actionClass = options.mobile ? "button" : "button primary";
 
-      els.detailPanel.innerHTML = `
+      return `
         <h2>${{escapeHtml(selected.name)}}</h2>
         <div class="meta">
           <span class="pill">${{escapeHtml(selected.zone)}}</span>
@@ -760,10 +752,86 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
         </div>
 
         <div class="detail-actions">
-          <a class="button primary" href="${{escapeHtml(selected.detail_path)}}" target="_blank" rel="noreferrer">打开介绍卡</a>
+          <a class="${{actionClass}}" href="${{escapeHtml(selected.detail_path)}}" target="_blank" rel="noreferrer">打开介绍卡</a>
           <a class="button" href="${{escapeHtml(selected.folder_path)}}" target="_blank" rel="noreferrer">打开文件夹</a>
         </div>
       `;
+    }}
+
+    function renderResults(filtered) {{
+      if (!filtered.length) {{
+        els.results.innerHTML = '<div class="muted">没有匹配结果，请换个关键词或筛选条件。</div>';
+        if (!state.selectedPath) {{
+          els.detailPanel.innerHTML = '<div class="detail-empty">没有可展示的展商。</div>';
+        }}
+        return;
+      }}
+
+      const mobile = isMobileLayout();
+
+      if (!filtered.some(item => item.detail_path === state.selectedPath)) {{
+        state.selectedPath = mobile ? "" : filtered[0].detail_path;
+      }} else if (!state.selectedPath && !mobile) {{
+        state.selectedPath = filtered[0].detail_path;
+      }}
+
+      els.results.innerHTML = filtered.map(item => {{
+        const expanded = item.detail_path === state.selectedPath;
+        const active = expanded ? "active" : "";
+        const wrapperClass = expanded ? "card-item expanded" : "card-item";
+        const contactText = item.has_contact ? "已有联系人" : "待补充联系人";
+        const contactClass = item.has_contact ? "ok" : "warn";
+        const tags = item.tags.map(tag => `<span class="pill">${{escapeHtml(tag)}}</span>`).join("");
+        const mobileHint = mobile
+          ? `<div class="card-hint">${{expanded ? "再次点击卡片可收起详情" : "点击卡片查看详情"}}</div>`
+          : "";
+        const mobileDetail = mobile && expanded
+          ? `<div class="mobile-detail">${{renderDetailContent(item, {{ mobile: true }})}}</div>`
+          : "";
+        return `
+          <div class="${{wrapperClass}}">
+            <article class="card ${{active}}" data-path="${{escapeHtml(item.detail_path)}}">
+              <h3>${{escapeHtml(item.name)}}</h3>
+              <div class="meta">
+                <span class="pill">${{escapeHtml(item.zone)}}</span>
+                <span class="pill">${{escapeHtml(item.booth)}}</span>
+                <span class="pill ${{contactClass}}">${{contactText}}</span>
+              </div>
+              <p>${{escapeHtml(item.summary)}}</p>
+              <div class="meta">${{tags}}</div>
+              ${{mobileHint}}
+            </article>
+            ${{mobileDetail}}
+          </div>
+        `;
+      }}).join("");
+
+      els.results.querySelectorAll("[data-path]").forEach(card => {{
+        card.addEventListener("click", () => {{
+          const nextPath = card.dataset.path;
+          if (mobile && state.selectedPath === nextPath) {{
+            state.selectedPath = "";
+          }} else {{
+            state.selectedPath = nextPath;
+          }}
+          render();
+        }});
+      }});
+    }}
+
+    function renderDetail(filtered) {{
+      if (isMobileLayout()) {{
+        els.detailPanel.innerHTML = '<div class="detail-empty">移动端请点击左侧卡片，在卡片下方查看详情。</div>';
+        return;
+      }}
+
+      const selected = filtered.find(item => item.detail_path === state.selectedPath);
+      if (!selected) {{
+        els.detailPanel.innerHTML = '<div class="detail-empty">当前筛选结果中没有选中的展商。</div>';
+        return;
+      }}
+
+      els.detailPanel.innerHTML = renderDetailContent(selected);
     }}
 
     function render() {{
@@ -788,6 +856,10 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
     }});
     els.sortSelect.addEventListener("change", event => {{
       state.sort = event.target.value;
+      render();
+    }});
+
+    mobileMediaQuery.addEventListener("change", () => {{
       render();
     }});
 
