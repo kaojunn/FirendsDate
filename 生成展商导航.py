@@ -444,10 +444,23 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
       padding: 14px;
       background: var(--panel-soft);
       margin-top: 12px;
+      overflow: hidden;
+      transform-origin: top center;
     }}
 
     .mobile-detail .detail-section:first-child {{
       margin-top: 0;
+    }}
+
+    @keyframes mobileDetailReveal {{
+      from {{
+        opacity: 0;
+        transform: translateY(-8px) scaleY(0.98);
+      }}
+      to {{
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+      }}
     }}
 
     .detail-actions {{
@@ -495,6 +508,16 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
 
       .card.expanded .mobile-detail {{
         display: block;
+        animation: mobileDetailReveal 260ms cubic-bezier(0.22, 1, 0.36, 1);
+      }}
+    }}
+
+    @media (prefers-reduced-motion: reduce) {{
+      .card,
+      .chip,
+      .mobile-detail {{
+        animation: none !important;
+        transition: none !important;
       }}
     }}
 
@@ -692,6 +715,20 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
       return mobileMediaQuery.matches;
     }}
 
+    function scrollCardToCenter(detailPath) {{
+      if (!isMobileLayout()) return;
+      const cards = Array.from(els.results.querySelectorAll("[data-path]"));
+      const target = cards.find(card => card.dataset.path === detailPath);
+      if (!target) return;
+
+      const rect = target.getBoundingClientRect();
+      const targetTop = rect.top + window.scrollY - ((window.innerHeight - rect.height) / 2);
+      window.scrollTo({{
+        top: Math.max(0, targetTop),
+        behavior: "smooth",
+      }});
+    }}
+
     function renderTagChips() {{
       els.tagChips.innerHTML = allTags.map(tag => {{
         const active = (state.tag || "全部") === tag ? "active" : "";
@@ -799,14 +836,26 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
       }}).join("");
 
       els.results.querySelectorAll("[data-path]").forEach(card => {{
-        card.addEventListener("click", () => {{
+        card.addEventListener("click", event => {{
+          if (event.target.closest("a")) {{
+            return;
+          }}
+
           const nextPath = card.dataset.path;
+          let shouldScroll = false;
           if (mobile && state.selectedPath === nextPath) {{
             state.selectedPath = "";
           }} else {{
             state.selectedPath = nextPath;
+            shouldScroll = mobile;
           }}
           render();
+
+          if (shouldScroll) {{
+            requestAnimationFrame(() => {{
+              scrollCardToCenter(nextPath);
+            }});
+          }}
         }});
       }});
     }}
