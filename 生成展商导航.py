@@ -360,12 +360,6 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
       background: var(--brand-soft);
     }}
 
-    .card-item {{
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }}
-
     .card h3 {{
       margin: 0;
       font-size: 16px;
@@ -449,6 +443,7 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
       border-radius: 16px;
       padding: 14px;
       background: var(--panel-soft);
+      margin-top: 12px;
     }}
 
     .mobile-detail .detail-section:first-child {{
@@ -498,7 +493,7 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
         grid-template-columns: 1fr;
       }}
 
-      .card-item.expanded .mobile-detail {{
+      .card.expanded .mobile-detail {{
         display: block;
       }}
     }}
@@ -777,8 +772,7 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
 
       els.results.innerHTML = filtered.map(item => {{
         const expanded = item.detail_path === state.selectedPath;
-        const active = expanded ? "active" : "";
-        const wrapperClass = expanded ? "card-item expanded" : "card-item";
+        const active = expanded ? "active expanded" : "";
         const contactText = item.has_contact ? "已有联系人" : "待补充联系人";
         const contactClass = item.has_contact ? "ok" : "warn";
         const tags = item.tags.map(tag => `<span class="pill">${{escapeHtml(tag)}}</span>`).join("");
@@ -789,20 +783,18 @@ def build_html(exhibitors: list[Exhibitor]) -> str:
           ? `<div class="mobile-detail">${{renderDetailContent(item, {{ mobile: true }})}}</div>`
           : "";
         return `
-          <div class="${{wrapperClass}}">
-            <article class="card ${{active}}" data-path="${{escapeHtml(item.detail_path)}}">
-              <h3>${{escapeHtml(item.name)}}</h3>
-              <div class="meta">
-                <span class="pill">${{escapeHtml(item.zone)}}</span>
-                <span class="pill">${{escapeHtml(item.booth)}}</span>
-                <span class="pill ${{contactClass}}">${{contactText}}</span>
-              </div>
-              <p>${{escapeHtml(item.summary)}}</p>
-              <div class="meta">${{tags}}</div>
-              ${{mobileHint}}
-            </article>
+          <article class="card ${{active}}" data-path="${{escapeHtml(item.detail_path)}}">
+            <h3>${{escapeHtml(item.name)}}</h3>
+            <div class="meta">
+              <span class="pill">${{escapeHtml(item.zone)}}</span>
+              <span class="pill">${{escapeHtml(item.booth)}}</span>
+              <span class="pill ${{contactClass}}">${{contactText}}</span>
+            </div>
+            <p>${{escapeHtml(item.summary)}}</p>
+            <div class="meta">${{tags}}</div>
+            ${{mobileHint}}
             ${{mobileDetail}}
-          </div>
+          </article>
         `;
       }}).join("");
 
