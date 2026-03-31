@@ -1,0 +1,1821 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LET'S VISION 2026 展商导航</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --panel-soft: #f0f4ff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #dbe2ea;
+      --brand: #2563eb;
+      --brand-soft: rgba(37, 99, 235, 0.12);
+      --ok: #0f766e;
+      --warn: #92400e;
+      --shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --panel: #111827;
+        --panel-soft: #172036;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --line: #243244;
+        --brand: #60a5fa;
+        --brand-soft: rgba(96, 165, 250, 0.16);
+        --ok: #5eead4;
+        --warn: #fbbf24;
+        --shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font: 14px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    a {
+      color: var(--brand);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--panel), var(--panel-soft));
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 900px;
+    }
+
+    .toolbar {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: 2fr repeat(3, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      min-height: 42px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      padding: 0 12px;
+      font: inherit;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .chip.active {
+      border-color: var(--brand);
+      background: var(--brand-soft);
+      color: var(--brand);
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat .label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .stat .value {
+      margin-top: 6px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      gap: 16px;
+      margin-top: 20px;
+      align-items: start;
+    }
+
+    .results-panel,
+    .detail-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      min-height: 540px;
+    }
+
+    .panel-header {
+      padding: 18px 20px 0;
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .panel-header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .results {
+      padding: 16px 20px 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      background: var(--panel);
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--brand);
+    }
+
+    .card.active {
+      border-color: var(--brand);
+      background: var(--brand-soft);
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid var(--line);
+      background: var(--panel-soft);
+    }
+
+    .pill.ok {
+      color: var(--ok);
+    }
+
+    .pill.warn {
+      color: var(--warn);
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .detail-body {
+      padding: 16px 20px 20px;
+    }
+
+    .detail-empty {
+      color: var(--muted);
+      padding-top: 48px;
+    }
+
+    .detail-section {
+      margin-top: 18px;
+    }
+
+    .detail-section h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+    }
+
+    .detail-section p,
+    .detail-section li {
+      margin: 0;
+      color: var(--text);
+    }
+
+    .detail-section ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .detail-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .button.primary {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: white;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    @media (max-width: 1120px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-panel {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 840px) {
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 520px) {
+      .page {
+        padding: 16px;
+      }
+
+      .summary {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <h1>LET'S VISION 2026 展商导航</h1>
+      <p>
+        这是一个可搜索、可筛选、可点击查看详情的展商索引页。数据来自各展商文件夹内的
+        <code>介绍卡.md</code>，因此后续你只需要维护介绍卡，再重新运行一次生成脚本即可同步更新页面。
+      </p>
+
+      <div class="toolbar">
+        <div class="field">
+          <label for="searchInput">搜索</label>
+          <input id="searchInput" type="search" placeholder="输入公司名、方向、关键词、联系人">
+        </div>
+        <div class="field">
+          <label for="zoneFilter">分区</label>
+          <select id="zoneFilter">
+            <option value="">全部分区</option>
+            <option value="休闲区">休闲区</option>
+            <option value="会议区">会议区</option>
+            <option value="大厅区">大厅区</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="contactFilter">联系人状态</label>
+          <select id="contactFilter">
+            <option value="">全部</option>
+            <option value="yes">已有联系人</option>
+            <option value="no">待补充联系人</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="sortSelect">排序</label>
+          <select id="sortSelect">
+            <option value="zone">按分区 / 展位</option>
+            <option value="name">按名称</option>
+            <option value="contact">按联系人状态</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="chips" id="tagChips"></div>
+    </section>
+
+    <section class="summary">
+      <div class="stat">
+        <div class="label">展商总数</div>
+        <div class="value" id="totalCount">0</div>
+      </div>
+      <div class="stat">
+        <div class="label">当前结果</div>
+        <div class="value" id="filteredCount">0</div>
+      </div>
+      <div class="stat">
+        <div class="label">已有联系人</div>
+        <div class="value" id="contactCount">0</div>
+      </div>
+      <div class="stat">
+        <div class="label">待补充联系人</div>
+        <div class="value" id="missingContactCount">0</div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <div class="results-panel">
+        <div class="panel-header">
+          <h2>展商列表</h2>
+          <p>点击任意卡片，在右侧查看详情；也可以直接打开对应的介绍卡文件。</p>
+        </div>
+        <div class="results" id="results"></div>
+      </div>
+
+      <aside class="detail-panel">
+        <div class="panel-header">
+          <h2>详情</h2>
+          <p>这里会展示你选中的展商信息。</p>
+        </div>
+        <div class="detail-body" id="detailPanel">
+          <div class="detail-empty">先从左侧选择一个展商。</div>
+        </div>
+      </aside>
+    </section>
+  </div>
+
+  <script id="exhibitor-data" type="application/json">
+[
+  {
+    "name": "6X Studio",
+    "zone": "大厅区",
+    "booth": "C11",
+    "summary": "专注苹果生态应用开发，打造一系列有趣且高频的 App 产品。",
+    "links": [
+      "https://6xstudio.com/apps"
+    ],
+    "contact": "待补充",
+    "detail_path": "6X Studio/介绍卡.md",
+    "folder_path": "6X Studio",
+    "has_contact": false,
+    "tags": [
+      "其他"
+    ]
+  },
+  {
+    "name": "Action&Link",
+    "zone": "会议区",
+    "booth": "E10",
+    "summary": "将普通游戏快速转换为体感游戏体验的人机交互方案。",
+    "links": [
+      "https://actionandlink.com.cn/"
+    ],
+    "contact": "待补充",
+    "detail_path": "Action&Link/介绍卡.md",
+    "folder_path": "Action&Link",
+    "has_contact": false,
+    "tags": [
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "AdventureX",
+    "zone": "会议区",
+    "booth": "E12",
+    "summary": "中国有影响力的青年黑客松活动品牌，面向全球创新者。",
+    "links": [
+      "https://adventure-x.org"
+    ],
+    "contact": "待补充",
+    "detail_path": "AdventureX/介绍卡.md",
+    "folder_path": "AdventureX",
+    "has_contact": false,
+    "tags": [
+      "其他"
+    ]
+  },
+  {
+    "name": "AI恋人",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "结合 HealthKit、WeatherKit 与 ARKit 的 AI 角色陪伴应用。",
+    "links": [
+      "http://www.yujichengdu.com.cn/"
+    ],
+    "contact": "待补充",
+    "detail_path": "AI恋人/介绍卡.md",
+    "folder_path": "AI恋人",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "XR/MR"
+    ]
+  },
+  {
+    "name": "Aqara",
+    "zone": "会议区",
+    "booth": "B19",
+    "summary": "空间智能与全屋智能品牌，强调 Apple 生态全屋智能能力。",
+    "links": [
+      "https://aqara.com"
+    ],
+    "contact": "待补充",
+    "detail_path": "Aqara/介绍卡.md",
+    "folder_path": "Aqara",
+    "has_contact": false,
+    "tags": [
+      "XR/MR"
+    ]
+  },
+  {
+    "name": "Artemis",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "为女性设计的安全可穿戴珠宝，集成摄像头、蓝牙与紧急求助。",
+    "links": [
+      "https://www.joinartemis.co"
+    ],
+    "contact": "待补充",
+    "detail_path": "Artemis/介绍卡.md",
+    "folder_path": "Artemis",
+    "has_contact": false,
+    "tags": [
+      "XR/MR",
+      "硬件",
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "AtomGit",
+    "zone": "会议区",
+    "booth": "E13",
+    "summary": "新一代开源与人工智能协作平台，整合代码、模型、数据集与算力服务。",
+    "links": [
+      "https://atomgit.com"
+    ],
+    "contact": "待补充",
+    "detail_path": "AtomGit/介绍卡.md",
+    "folder_path": "AtomGit",
+    "has_contact": false,
+    "tags": [
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "bilibili",
+    "zone": "大厅区",
+    "booth": "B10",
+    "summary": "综合性视频社区与开发者交流平台，聚焦科技领域共创与合作。",
+    "links": [
+      "https://space.bilibili.com/394205865"
+    ],
+    "contact": "待补充",
+    "detail_path": "bilibili/介绍卡.md",
+    "folder_path": "bilibili",
+    "has_contact": false,
+    "tags": [
+      "内容/创作",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "Bonjour",
+    "zone": "休闲区",
+    "booth": "F01",
+    "summary": "面向 Builder 与 Founder 的数字名片网络和社交基础设施。",
+    "links": [
+      "https://bonjour.bio/"
+    ],
+    "contact": "待补充",
+    "detail_path": "Bonjour/介绍卡.md",
+    "folder_path": "Bonjour",
+    "has_contact": false,
+    "tags": [
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "CANDYSIGN 制糖工厂",
+    "zone": "会议区",
+    "booth": "B15",
+    "summary": "数字时尚电能品牌，面向极客和创作者提供苹果全家桶充电与收纳方案。",
+    "links": [
+      "https://thecandysign.com/"
+    ],
+    "contact": "待补充",
+    "detail_path": "CANDYSIGN 制糖工厂/介绍卡.md",
+    "folder_path": "CANDYSIGN 制糖工厂",
+    "has_contact": false,
+    "tags": [
+      "硬件",
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "Clawly",
+    "zone": "会议区",
+    "booth": "E15",
+    "summary": "一键领养 AI Agent 伙伴的应用，支持技能市场和跨设备陪伴。",
+    "links": [
+      "https://www.clawly.chat/"
+    ],
+    "contact": "待补充",
+    "detail_path": "Clawly/介绍卡.md",
+    "folder_path": "Clawly",
+    "has_contact": false,
+    "tags": [
+      "AI"
+    ]
+  },
+  {
+    "name": "DeskClaw",
+    "zone": "会议区",
+    "booth": "E14",
+    "summary": "以桌宠形式承载任务管理、综合检索与创意生成的生产力工具。",
+    "links": [
+      "https://deskclaw.ai"
+    ],
+    "contact": "待补充",
+    "detail_path": "DeskClaw/介绍卡.md",
+    "folder_path": "DeskClaw",
+    "has_contact": false,
+    "tags": [
+      "工具/效率"
+    ]
+  },
+  {
+    "name": "Dipal D1",
+    "zone": "会议区",
+    "booth": "B18",
+    "summary": "裸眼 3D 与多模态交互的 AI 数字手办产品，主打二次元 AI 陪伴。",
+    "links": [
+      "https://dipal.net"
+    ],
+    "contact": "待补充",
+    "detail_path": "Dipal D1/介绍卡.md",
+    "folder_path": "Dipal D1",
+    "has_contact": false,
+    "tags": [
+      "AI"
+    ]
+  },
+  {
+    "name": "Doc",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "让用户直接联系持证医生获得个性化帮助的医疗服务应用。",
+    "links": [
+      "https://www.class2venture.com/portfolio"
+    ],
+    "contact": "待补充",
+    "detail_path": "Doc/介绍卡.md",
+    "folder_path": "Doc",
+    "has_contact": false,
+    "tags": [
+      "其他"
+    ]
+  },
+  {
+    "name": "Drinkinn",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "AI 驱动的饮品识别与健康记录助手。",
+    "links": [
+      "http://www.drinkinn.cn"
+    ],
+    "contact": "待补充",
+    "detail_path": "Drinkinn/介绍卡.md",
+    "folder_path": "Drinkinn",
+    "has_contact": false,
+    "tags": [
+      "AI"
+    ]
+  },
+  {
+    "name": "Element",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "强调认真恋爱与筛选机制的交友应用。",
+    "links": [
+      "https://www.class2venture.com/portfolio"
+    ],
+    "contact": "待补充",
+    "detail_path": "Element/介绍卡.md",
+    "folder_path": "Element",
+    "has_contact": false,
+    "tags": [
+      "其他"
+    ]
+  },
+  {
+    "name": "ElloMeta",
+    "zone": "大厅区",
+    "booth": "C06",
+    "summary": "XR 解决方案团队，提供从创意概念到数字内容和场域落地的全链条服务。",
+    "links": [
+      "http://www.elloworld.com"
+    ],
+    "contact": "待补充",
+    "detail_path": "ElloMeta/介绍卡.md",
+    "folder_path": "ElloMeta",
+    "has_contact": false,
+    "tags": [
+      "XR/MR",
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "EvoMap",
+    "zone": "大厅区",
+    "booth": "C08",
+    "summary": "让 AI Agent 通过开放协议联网学习、复盘与进化的基础设施。",
+    "links": [
+      "https://evomap.ai/"
+    ],
+    "contact": "待补充",
+    "detail_path": "EvoMap/介绍卡.md",
+    "folder_path": "EvoMap",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "教育/高校"
+    ]
+  },
+  {
+    "name": "FiloMail",
+    "zone": "大厅区",
+    "booth": "B05",
+    "summary": "AI 原生邮箱客户端，主打邮件总结、待办提取和智能标签。",
+    "links": [
+      "https://www.filomail.com/"
+    ],
+    "contact": "待补充",
+    "detail_path": "FiloMail/介绍卡.md",
+    "folder_path": "FiloMail",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "工具/效率"
+    ]
+  },
+  {
+    "name": "FlipYear",
+    "zone": "会议区",
+    "booth": "E08",
+    "summary": "把 iPhone 相册自动整理成年/月维度的 3D 翻页书。",
+    "links": [
+      "https://flipyear.app"
+    ],
+    "contact": "待补充",
+    "detail_path": "FlipYear/介绍卡.md",
+    "folder_path": "FlipYear",
+    "has_contact": false,
+    "tags": [
+      "XR/MR"
+    ]
+  },
+  {
+    "name": "GathXR",
+    "zone": "会议区",
+    "booth": "E06",
+    "summary": "XR 与 AI 内容开发创意科技工作室，探索空间宠物等沉浸式体验。",
+    "links": [
+      "https://www.gathxr.space"
+    ],
+    "contact": "待补充",
+    "detail_path": "GathXR/介绍卡.md",
+    "folder_path": "GathXR",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "XR/MR",
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "Genelec 真力",
+    "zone": "大厅区",
+    "booth": "B08",
+    "summary": "专业音频监听品牌，为音乐、影视、游戏等创作场景提供监听解决方案。",
+    "links": [
+      "www.genelec.cn"
+    ],
+    "contact": "待补充",
+    "detail_path": "Genelec 真力/介绍卡.md",
+    "folder_path": "Genelec 真力",
+    "has_contact": false,
+    "tags": [
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "Kiro",
+    "zone": "大厅区",
+    "booth": "B12",
+    "summary": "面向 Agent 时代的开发工具，支持通过 Spec 驱动需求拆解、架构设计与代码落地。",
+    "links": [
+      "https://kiro.dev/"
+    ],
+    "contact": "待补充",
+    "detail_path": "Kiro/介绍卡.md",
+    "folder_path": "Kiro",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "工具/效率",
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "LilyFM",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "将文章、PDF 或笔记秒变双人 AI 播客节目的 iOS 应用。",
+    "links": [
+      "https://lilyfm.app/"
+    ],
+    "contact": "待补充",
+    "detail_path": "LilyFM/介绍卡.md",
+    "folder_path": "LilyFM",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "工具/效率",
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "Lody",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "在 iPhone 和 Mac 上并行编排 AI Coding Agents 的工具。",
+    "links": [
+      "https://lody.ai"
+    ],
+    "contact": "待补充",
+    "detail_path": "Lody/介绍卡.md",
+    "folder_path": "Lody",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "工具/效率"
+    ]
+  },
+  {
+    "name": "MiniMax",
+    "zone": "大厅区",
+    "booth": "B04",
+    "summary": "通用人工智能公司，提供多模态大模型、Agent 产品和开放平台。",
+    "links": [
+      "https://www.minimaxi.com"
+    ],
+    "contact": "待补充",
+    "detail_path": "MiniMax/介绍卡.md",
+    "folder_path": "MiniMax",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "MomClock",
+    "zone": "会议区",
+    "booth": "E03",
+    "summary": "强调自律与反拖延的 iOS 闹钟与应用限制工具。",
+    "links": [
+      "https://momclock.com"
+    ],
+    "contact": "待补充",
+    "detail_path": "MomClock/介绍卡.md",
+    "folder_path": "MomClock",
+    "has_contact": false,
+    "tags": [
+      "工具/效率"
+    ]
+  },
+  {
+    "name": "MoodTalker",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "面向 Z 世代高敏感人群的 AI 情绪陪伴 App。",
+    "links": [
+      "https://apps.apple.com/cn/app/id6453689112"
+    ],
+    "contact": "待补充",
+    "detail_path": "MoodTalker/介绍卡.md",
+    "folder_path": "MoodTalker",
+    "has_contact": false,
+    "tags": [
+      "AI"
+    ]
+  },
+  {
+    "name": "Open Panda",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "自主可控的企业级多智能体平台，强调安全、合规和可审计。",
+    "links": [
+      "https://openpanda.celhive.com"
+    ],
+    "contact": "待补充",
+    "detail_path": "Open Panda/介绍卡.md",
+    "folder_path": "Open Panda",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "OpenSpot AI",
+    "zone": "大厅区",
+    "booth": "C01",
+    "summary": "AI 驱动的 3D 互动世界创作平台，融合 3D 内容生成、空间重建、实时交互与跨平台发布。",
+    "links": [
+      "https://www.openspot.pro",
+      "https://openspot.pro/"
+    ],
+    "contact": "联系人待补充；已有记录：官网已知，你此前记录过合作与产品信息。",
+    "detail_path": "OpenSpot AI/介绍卡.md",
+    "folder_path": "OpenSpot AI",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "XR/MR",
+      "内容/创作",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "Paravia",
+    "zone": "休闲区",
+    "booth": "Paravia",
+    "summary": "旅行档案馆应用，用 3D 地图和成就系统记录全球足迹。",
+    "links": [
+      "https://testflight.apple.com/join/8bMvgPTE"
+    ],
+    "contact": "待补充",
+    "detail_path": "Paravia/介绍卡.md",
+    "folder_path": "Paravia",
+    "has_contact": false,
+    "tags": [
+      "XR/MR"
+    ]
+  },
+  {
+    "name": "POSO Cam",
+    "zone": "会议区",
+    "booth": "E05",
+    "summary": "AI 摄影工具，在取景时实时提示姿势、光线和角度。",
+    "links": [
+      "https://posocam.com"
+    ],
+    "contact": "待补充",
+    "detail_path": "POSO Cam/介绍卡.md",
+    "folder_path": "POSO Cam",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "工具/效率",
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "Recall",
+    "zone": "会议区",
+    "booth": "E04",
+    "summary": "面向深度阅读者的内容管理 App，支持多平台收藏、高亮和 AI 总结。",
+    "links": [
+      "https://www.classmelon.com/"
+    ],
+    "contact": "待补充",
+    "detail_path": "Recall/介绍卡.md",
+    "folder_path": "Recall",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "内容/创作",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "ScreenSage Pro",
+    "zone": "大厅区",
+    "booth": "C12",
+    "summary": "macOS 上的智能录屏剪辑工具，支持自动运镜、特写和转场。",
+    "links": [
+      "https://screensage.pro"
+    ],
+    "contact": "待补充",
+    "detail_path": "ScreenSage Pro/介绍卡.md",
+    "folder_path": "ScreenSage Pro",
+    "has_contact": false,
+    "tags": [
+      "工具/效率"
+    ]
+  },
+  {
+    "name": "Seestar",
+    "zone": "会议区",
+    "booth": "E07",
+    "summary": "消费级 AI 智能天文望远镜，支持辅助寻星、自动跟踪与远程控制。",
+    "links": [
+      "https://www.zwoastro.cn/"
+    ],
+    "contact": "待补充",
+    "detail_path": "Seestar/介绍卡.md",
+    "folder_path": "Seestar",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "XR/MR",
+      "硬件"
+    ]
+  },
+  {
+    "name": "SooFlow",
+    "zone": "会议区",
+    "booth": "E09",
+    "summary": "个性化拉伸应用，针对久坐、运动恢复与睡前放松生成拉伸序列。",
+    "links": [
+      "https://sooflow.infinutshell.studio/"
+    ],
+    "contact": "待补充",
+    "detail_path": "SooFlow/介绍卡.md",
+    "folder_path": "SooFlow",
+    "has_contact": false,
+    "tags": [
+      "其他"
+    ]
+  },
+  {
+    "name": "Story",
+    "zone": "会议区",
+    "booth": "E01",
+    "summary": "MR 混合现实内容制作团队，面向文旅和展馆场景提供从策划到部署的一体化方案。",
+    "links": [
+      "https://story.app/"
+    ],
+    "contact": "联系人：陈瀚科；微信：chenhanke_。",
+    "detail_path": "Story/介绍卡.md",
+    "folder_path": "Story",
+    "has_contact": true,
+    "tags": [
+      "XR/MR",
+      "内容/创作",
+      "文旅/展馆"
+    ]
+  },
+  {
+    "name": "StuCo",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "为大学生打造的结伴旅行与分账工具。",
+    "links": [
+      "https://www.class2venture.com/portfolio"
+    ],
+    "contact": "待补充",
+    "detail_path": "StuCo/介绍卡.md",
+    "folder_path": "StuCo",
+    "has_contact": false,
+    "tags": [
+      "工具/效率"
+    ]
+  },
+  {
+    "name": "TEN Framework",
+    "zone": "大厅区",
+    "booth": "B02",
+    "summary": "Agora 开源的实时对话式 AI 框架，支持低延迟、全双工、可打断的语音 Agent 能力。",
+    "links": [
+      "https://theten.ai"
+    ],
+    "contact": "待补充",
+    "detail_path": "TEN Framework/介绍卡.md",
+    "folder_path": "TEN Framework",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "tomtoc",
+    "zone": "会议区",
+    "booth": "B16",
+    "summary": "专注数码产品保护、收纳与出行便携方案。",
+    "links": [
+      "https://www.tomtoc.com"
+    ],
+    "contact": "待补充",
+    "detail_path": "tomtoc/介绍卡.md",
+    "folder_path": "tomtoc",
+    "has_contact": false,
+    "tags": [
+      "其他"
+    ]
+  },
+  {
+    "name": "Tripo AI",
+    "zone": "大厅区",
+    "booth": "C09",
+    "summary": "全球领先的 3D 大模型与 3D 工作站、API、插件、一键 3D 打印服务提供方。",
+    "links": [
+      "https://www.tripo3d.ai"
+    ],
+    "contact": "待补充",
+    "detail_path": "Tripo AI/介绍卡.md",
+    "folder_path": "Tripo AI",
+    "has_contact": false,
+    "tags": [
+      "AI"
+    ]
+  },
+  {
+    "name": "VoxAtmos",
+    "zone": "休闲区",
+    "booth": "VoxAtmos",
+    "summary": "为杜比全景声等空间音频时代建设音乐数据库与发现平台。",
+    "links": [
+      "https://apps.apple.com/app/id6754264865"
+    ],
+    "contact": "待补充",
+    "detail_path": "VoxAtmos/介绍卡.md",
+    "folder_path": "VoxAtmos",
+    "has_contact": false,
+    "tags": [
+      "XR/MR",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "WaytoAGI",
+    "zone": "会议区",
+    "booth": "E11",
+    "summary": "超大规模开源 AI 社区，聚合知识、工具与案例。",
+    "links": [
+      "https://waytoagi.com"
+    ],
+    "contact": "待补充",
+    "detail_path": "WaytoAGI/介绍卡.md",
+    "folder_path": "WaytoAGI",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "工具/效率",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "WebSpatial",
+    "zone": "大厅区",
+    "booth": "B09",
+    "summary": "让开发者用 HTML、CSS、React 构建 visionOS 空间应用的开源 SDK / 平台。",
+    "links": [
+      "https://webspatial.dev/"
+    ],
+    "contact": "待补充",
+    "detail_path": "WebSpatial/介绍卡.md",
+    "folder_path": "WebSpatial",
+    "has_contact": false,
+    "tags": [
+      "XR/MR",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "WPS Office",
+    "zone": "大厅区",
+    "booth": "C07",
+    "summary": "WPS for Pad 将桌面级办公能力带到 iPad，面向 Apple 生态办公场景。",
+    "links": [
+      "https://www.wps.cn"
+    ],
+    "contact": "待补充",
+    "detail_path": "WPS Office/介绍卡.md",
+    "folder_path": "WPS Office",
+    "has_contact": false,
+    "tags": [
+      "工具/效率"
+    ]
+  },
+  {
+    "name": "Yetstudio",
+    "zone": "大厅区",
+    "booth": "B13",
+    "summary": "专注空间计算与 AI 时代的人机交互，打造 visionOS 与 XR 方向产品。",
+    "links": [
+      "https://yetstudio.dev"
+    ],
+    "contact": "待补充",
+    "detail_path": "Yetstudio/介绍卡.md",
+    "folder_path": "Yetstudio",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "XR/MR"
+    ]
+  },
+  {
+    "name": "Zolplay",
+    "zone": "大厅区",
+    "booth": "B11",
+    "summary": "融合策略、设计与科技的设计工作室，为创始人与科技团队打造品牌与产品。",
+    "links": [
+      "https://zolplay.com"
+    ],
+    "contact": "待补充",
+    "detail_path": "Zolplay/介绍卡.md",
+    "folder_path": "Zolplay",
+    "has_contact": false,
+    "tags": [
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "伴宠 ParaPet",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "将宠物陪伴转化为环球旅行体验的情感向 App。",
+    "links": [
+      "http://www.yujichengdu.com.cn/"
+    ],
+    "contact": "待补充",
+    "detail_path": "伴宠 ParaPet/介绍卡.md",
+    "folder_path": "伴宠 ParaPet",
+    "has_contact": false,
+    "tags": [
+      "XR/MR"
+    ]
+  },
+  {
+    "name": "出海去",
+    "zone": "会议区",
+    "booth": "E02",
+    "summary": "围绕独立创客和一人公司构建全球增长基础设施。",
+    "links": [
+      "https://www.chuhaiqu.club/"
+    ],
+    "contact": "待补充",
+    "detail_path": "出海去/介绍卡.md",
+    "folder_path": "出海去",
+    "has_contact": false,
+    "tags": [
+      "其他"
+    ]
+  },
+  {
+    "name": "印象笔记",
+    "zone": "大厅区",
+    "booth": "B14",
+    "summary": "效率与知识管理工具，正在构建 AI 时代的第二大脑。",
+    "links": [
+      "https://www.yinxiang.com/"
+    ],
+    "contact": "待补充",
+    "detail_path": "印象笔记/介绍卡.md",
+    "folder_path": "印象笔记",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "工具/效率"
+    ]
+  },
+  {
+    "name": "叠叠社",
+    "zone": "大厅区",
+    "booth": "C05",
+    "summary": "AI 弹幕陪伴产品，让二次元角色以弹幕形式实时出现在屏幕中互动。",
+    "links": [
+      "https://nijigen.com.cn/"
+    ],
+    "contact": "待补充",
+    "detail_path": "叠叠社/介绍卡.md",
+    "folder_path": "叠叠社",
+    "has_contact": false,
+    "tags": [
+      "AI"
+    ]
+  },
+  {
+    "name": "叽里呱呱",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "基于 OpenClaw 的 AI 实体打印桌宠，将待办事项打印到现实桌面。",
+    "links": [
+      "https://jiliguagua.com"
+    ],
+    "contact": "待补充",
+    "detail_path": "叽里呱呱/介绍卡.md",
+    "folder_path": "叽里呱呱",
+    "has_contact": false,
+    "tags": [
+      "AI"
+    ]
+  },
+  {
+    "name": "告别沙滩",
+    "zone": "休闲区",
+    "booth": "告别沙滩",
+    "summary": "为离别与纪念场景设计的私密数字回忆空间。",
+    "links": [
+      "https://softlanding.com.cn"
+    ],
+    "contact": "待补充",
+    "detail_path": "告别沙滩/介绍卡.md",
+    "folder_path": "告别沙滩",
+    "has_contact": false,
+    "tags": [
+      "XR/MR",
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "小球圈 / Spherely",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "面向网羽乒爱好者的 AI 运动生态平台，结合动作识别与智能球拍。",
+    "links": [
+      "https://apps.apple.com/app/id6743446008"
+    ],
+    "contact": "待补充",
+    "detail_path": "小球圈_Spherely/介绍卡.md",
+    "folder_path": "小球圈_Spherely",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "成都穹界影创",
+    "zone": "大厅区",
+    "booth": "D01-D02",
+    "summary": "专注 Vision Pro 沉浸视频内容全链路开发、制作与分发，具备 16K URSA Cine 能力。",
+    "links": [
+      "https://infinitevision.art"
+    ],
+    "contact": "联系人：唐义苏；微信：tangyisutang；电话：18380140631。",
+    "detail_path": "成都穹界影创/介绍卡.md",
+    "folder_path": "成都穹界影创",
+    "has_contact": true,
+    "tags": [
+      "XR/MR",
+      "内容/创作",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "捏Ta",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "利用 AI 帮助用户创造角色并构建个人 IP 世界的创作平台。",
+    "links": [
+      "https://app.nieta.art/"
+    ],
+    "contact": "待补充",
+    "detail_path": "捏Ta/介绍卡.md",
+    "folder_path": "捏Ta",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "内容/创作",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "摸摸鱼计时器",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "运行在 macOS 菜单栏的效率记录工具，统计专注与摸鱼时间。",
+    "links": [
+      "https://momoyu.app/"
+    ],
+    "contact": "待补充",
+    "detail_path": "摸摸鱼计时器/介绍卡.md",
+    "folder_path": "摸摸鱼计时器",
+    "has_contact": false,
+    "tags": [
+      "工具/效率"
+    ]
+  },
+  {
+    "name": "数数科技",
+    "zone": "会议区",
+    "booth": "B17",
+    "summary": "基于企业级数据底座推出数据原生 Agent，服务企业增长与智能决策。",
+    "links": [
+      "https://www.thinkingdata.cn"
+    ],
+    "contact": "待补充",
+    "detail_path": "数数科技/介绍卡.md",
+    "folder_path": "数数科技",
+    "has_contact": false,
+    "tags": [
+      "AI"
+    ]
+  },
+  {
+    "name": "柚衣科技",
+    "zone": "大厅区",
+    "booth": "C03",
+    "summary": "AI 游戏公司，专注 AI Native 游戏与可落地的 AI 应用开发工具。",
+    "links": [
+      "https://yetanother.ai"
+    ],
+    "contact": "待补充",
+    "detail_path": "柚衣科技/介绍卡.md",
+    "folder_path": "柚衣科技",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "工具/效率",
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "混空Studio",
+    "zone": "大厅区",
+    "booth": "C02",
+    "summary": "AI + AR 元宇宙内容创作与分发平台，支持空间数字化建模与互动场景创作。",
+    "links": [
+      "https://njyjxr.com/"
+    ],
+    "contact": "待补充",
+    "detail_path": "混空Studio/介绍卡.md",
+    "folder_path": "混空Studio",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "XR/MR",
+      "内容/创作",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "清闲 LiberNovo",
+    "zone": "大厅区",
+    "booth": "B03",
+    "summary": "动态人机工学椅品牌，面向 Apple 生态创作者提供久坐友好的硬件方案。",
+    "links": [
+      "www.libernovo.com"
+    ],
+    "contact": "待补充",
+    "detail_path": "清闲 LiberNovo/介绍卡.md",
+    "folder_path": "清闲 LiberNovo",
+    "has_contact": false,
+    "tags": [
+      "硬件",
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "真格基金",
+    "zone": "大厅区",
+    "booth": "B06",
+    "summary": "早期天使投资机构，关注科技创新与创业项目。",
+    "links": [
+      "https://www.zhenfund.com/"
+    ],
+    "contact": "待补充",
+    "detail_path": "真格基金/介绍卡.md",
+    "folder_path": "真格基金",
+    "has_contact": false,
+    "tags": [
+      "其他"
+    ]
+  },
+  {
+    "name": "苹果美承",
+    "zone": "大厅区",
+    "booth": "C13",
+    "summary": "苹果代理商，面向高校提供 Mac 本地部署 AI 与软硬件组合实验室方案。",
+    "links": [
+      "https://education.mcebg.com"
+    ],
+    "contact": "联系人：季俊杰；电话：18652992232。",
+    "detail_path": "苹果美承/介绍卡.md",
+    "folder_path": "苹果美承",
+    "has_contact": true,
+    "tags": [
+      "AI",
+      "硬件",
+      "教育/高校"
+    ]
+  },
+  {
+    "name": "观猹",
+    "zone": "大厅区",
+    "booth": "C10",
+    "summary": "AI 时代的内容社区与产品分发平台，帮助 Builder 展示作品并获得反馈。",
+    "links": [
+      "http://watcha.cn"
+    ],
+    "contact": "待补充",
+    "detail_path": "观猹/介绍卡.md",
+    "folder_path": "观猹",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "内容/创作",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "视徕科技 / SLAMXCAM",
+    "zone": "大厅区",
+    "booth": "C04",
+    "summary": "消费级空间视频相机厂商，提供双目 8K 180 度广角一体式相机与空间视频能力。",
+    "links": [
+      "https://www.vr180mall.com/",
+      "https://3.cn/2J-66MlQ?jkl=@S86X61NtWkdi@ MF5681"
+    ],
+    "contact": "联系人：王浩；微信：goodwill0801。",
+    "detail_path": "视徕科技_SLAMXCAM/介绍卡.md",
+    "folder_path": "视徕科技_SLAMXCAM",
+    "has_contact": true,
+    "tags": [
+      "XR/MR",
+      "硬件",
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "通义实验室",
+    "zone": "大厅区",
+    "booth": "B07",
+    "summary": "深耕 AIGC 与大模型前沿探索，关注 AI 在 iOS 等 Apple 设备上的应用可能性。",
+    "links": [
+      "https://qwen.ai/home"
+    ],
+    "contact": "待补充",
+    "detail_path": "通义实验室/介绍卡.md",
+    "folder_path": "通义实验室",
+    "has_contact": false,
+    "tags": [
+      "AI",
+      "教育/高校"
+    ]
+  },
+  {
+    "name": "逸派玩科技",
+    "zone": "大厅区",
+    "booth": "B01",
+    "summary": "专注海外独立游戏引进与发行，把优秀海外游戏带给中国苹果用户。",
+    "links": [
+      "www.epieplay.com"
+    ],
+    "contact": "待补充",
+    "detail_path": "逸派玩科技/介绍卡.md",
+    "folder_path": "逸派玩科技",
+    "has_contact": false,
+    "tags": [
+      "内容/创作"
+    ]
+  },
+  {
+    "name": "钟鸣九州",
+    "zone": "休闲区",
+    "booth": "钟鸣九州",
+    "summary": "战国题材的非对称双人平台解谜游戏，结合编钟与空间音频。",
+    "links": [
+      "https://bellringoverworld.muxixyz.com/index.html"
+    ],
+    "contact": "待补充",
+    "detail_path": "钟鸣九州/介绍卡.md",
+    "folder_path": "钟鸣九州",
+    "has_contact": false,
+    "tags": [
+      "XR/MR",
+      "内容/创作",
+      "社区/平台"
+    ]
+  },
+  {
+    "name": "魂旅",
+    "zone": "休闲区",
+    "booth": "待补充",
+    "summary": "虚拟云旅游 App，可生成数字分身替你前往目的地。",
+    "links": [
+      "https://apps.apple.com/app/id6738938517"
+    ],
+    "contact": "待补充",
+    "detail_path": "魂旅/介绍卡.md",
+    "folder_path": "魂旅",
+    "has_contact": false,
+    "tags": [
+      "其他"
+    ]
+  }
+]
+  </script>
+  <script>
+    const exhibitors = JSON.parse(document.getElementById("exhibitor-data").textContent);
+    const state = {
+      search: "",
+      zone: "",
+      contact: "",
+      tag: "",
+      sort: "zone",
+      selectedPath: "",
+    };
+
+    const els = {
+      searchInput: document.getElementById("searchInput"),
+      zoneFilter: document.getElementById("zoneFilter"),
+      contactFilter: document.getElementById("contactFilter"),
+      sortSelect: document.getElementById("sortSelect"),
+      tagChips: document.getElementById("tagChips"),
+      totalCount: document.getElementById("totalCount"),
+      filteredCount: document.getElementById("filteredCount"),
+      contactCount: document.getElementById("contactCount"),
+      missingContactCount: document.getElementById("missingContactCount"),
+      results: document.getElementById("results"),
+      detailPanel: document.getElementById("detailPanel"),
+    };
+
+    const allTags = ["全部", ...new Set(exhibitors.flatMap(item => item.tags))];
+
+    function escapeHtml(value) {
+      return value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    function boothSortValue(booth) {
+      if (!booth || booth === "待补充") return 999999;
+      const match = booth.match(/([A-Z])(\d+)/i);
+      if (!match) return 900000;
+      const letterValue = match[1].toUpperCase().charCodeAt(0) - 64;
+      const numberValue = Number(match[2]);
+      return letterValue * 1000 + numberValue;
+    }
+
+    function getFilteredData() {
+      const keyword = state.search.trim().toLowerCase();
+      const filtered = exhibitors.filter(item => {
+        const haystack = [
+          item.name,
+          item.zone,
+          item.booth,
+          item.summary,
+          item.contact,
+          item.tags.join(" "),
+        ].join(" ").toLowerCase();
+
+        if (keyword && !haystack.includes(keyword)) return false;
+        if (state.zone && item.zone !== state.zone) return false;
+        if (state.contact === "yes" && !item.has_contact) return false;
+        if (state.contact === "no" && item.has_contact) return false;
+        if (state.tag && state.tag !== "全部" && !item.tags.includes(state.tag)) return false;
+        return true;
+      });
+
+      filtered.sort((a, b) => {
+        if (state.sort === "name") {
+          return a.name.localeCompare(b.name, "zh-CN");
+        }
+        if (state.sort === "contact") {
+          if (a.has_contact !== b.has_contact) return a.has_contact ? -1 : 1;
+          return a.name.localeCompare(b.name, "zh-CN");
+        }
+
+        const zoneCompare = a.zone.localeCompare(b.zone, "zh-CN");
+        if (zoneCompare !== 0) return zoneCompare;
+        const boothCompare = boothSortValue(a.booth) - boothSortValue(b.booth);
+        if (boothCompare !== 0) return boothCompare;
+        return a.name.localeCompare(b.name, "zh-CN");
+      });
+
+      return filtered;
+    }
+
+    function renderTagChips() {
+      els.tagChips.innerHTML = allTags.map(tag => {
+        const active = (state.tag || "全部") === tag ? "active" : "";
+        return `<button class="chip ${active}" type="button" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}</button>`;
+      }).join("");
+
+      els.tagChips.querySelectorAll("[data-tag]").forEach(button => {
+        button.addEventListener("click", () => {
+          state.tag = button.dataset.tag === "全部" ? "" : button.dataset.tag;
+          render();
+        });
+      });
+    }
+
+    function renderStats(filtered) {
+      els.totalCount.textContent = exhibitors.length;
+      els.filteredCount.textContent = filtered.length;
+      const contactCount = exhibitors.filter(item => item.has_contact).length;
+      els.contactCount.textContent = contactCount;
+      els.missingContactCount.textContent = exhibitors.length - contactCount;
+    }
+
+    function renderResults(filtered) {
+      if (!filtered.length) {
+        els.results.innerHTML = '<div class="muted">没有匹配结果，请换个关键词或筛选条件。</div>';
+        if (!state.selectedPath) {
+          els.detailPanel.innerHTML = '<div class="detail-empty">没有可展示的展商。</div>';
+        }
+        return;
+      }
+
+      if (!state.selectedPath || !filtered.some(item => item.detail_path === state.selectedPath)) {
+        state.selectedPath = filtered[0].detail_path;
+      }
+
+      els.results.innerHTML = filtered.map(item => {
+        const active = item.detail_path === state.selectedPath ? "active" : "";
+        const contactText = item.has_contact ? "已有联系人" : "待补充联系人";
+        const contactClass = item.has_contact ? "ok" : "warn";
+        const tags = item.tags.map(tag => `<span class="pill">${escapeHtml(tag)}</span>`).join("");
+        return `
+          <article class="card ${active}" data-path="${escapeHtml(item.detail_path)}">
+            <h3>${escapeHtml(item.name)}</h3>
+            <div class="meta">
+              <span class="pill">${escapeHtml(item.zone)}</span>
+              <span class="pill">${escapeHtml(item.booth)}</span>
+              <span class="pill ${contactClass}">${contactText}</span>
+            </div>
+            <p>${escapeHtml(item.summary)}</p>
+            <div class="meta">${tags}</div>
+          </article>
+        `;
+      }).join("");
+
+      els.results.querySelectorAll("[data-path]").forEach(card => {
+        card.addEventListener("click", () => {
+          state.selectedPath = card.dataset.path;
+          render();
+        });
+      });
+    }
+
+    function renderDetail(filtered) {
+      const selected = filtered.find(item => item.detail_path === state.selectedPath);
+      if (!selected) {
+        els.detailPanel.innerHTML = '<div class="detail-empty">当前筛选结果中没有选中的展商。</div>';
+        return;
+      }
+
+      const links = selected.links.length
+        ? `<ul>${selected.links.map(link => `<li><a href="${escapeHtml(link)}" target="_blank" rel="noreferrer">${escapeHtml(link)}</a></li>`).join("")}</ul>`
+        : '<p class="muted">待补充</p>';
+
+      const tags = selected.tags.map(tag => `<span class="pill">${escapeHtml(tag)}</span>`).join("");
+
+      els.detailPanel.innerHTML = `
+        <h2>${escapeHtml(selected.name)}</h2>
+        <div class="meta">
+          <span class="pill">${escapeHtml(selected.zone)}</span>
+          <span class="pill">${escapeHtml(selected.booth)}</span>
+          <span class="pill ${selected.has_contact ? "ok" : "warn"}">${selected.has_contact ? "已有联系人" : "待补充联系人"}</span>
+        </div>
+        <div class="meta">${tags}</div>
+
+        <div class="detail-section">
+          <h3>简介</h3>
+          <p>${escapeHtml(selected.summary)}</p>
+        </div>
+
+        <div class="detail-section">
+          <h3>联系人</h3>
+          <p>${escapeHtml(selected.contact)}</p>
+        </div>
+
+        <div class="detail-section">
+          <h3>公开链接</h3>
+          ${links}
+        </div>
+
+        <div class="detail-actions">
+          <a class="button primary" href="${escapeHtml(selected.detail_path)}" target="_blank" rel="noreferrer">打开介绍卡</a>
+          <a class="button" href="${escapeHtml(selected.folder_path)}" target="_blank" rel="noreferrer">打开文件夹</a>
+        </div>
+      `;
+    }
+
+    function render() {
+      renderTagChips();
+      const filtered = getFilteredData();
+      renderStats(filtered);
+      renderResults(filtered);
+      renderDetail(filtered);
+    }
+
+    els.searchInput.addEventListener("input", event => {
+      state.search = event.target.value;
+      render();
+    });
+    els.zoneFilter.addEventListener("change", event => {
+      state.zone = event.target.value;
+      render();
+    });
+    els.contactFilter.addEventListener("change", event => {
+      state.contact = event.target.value;
+      render();
+    });
+    els.sortSelect.addEventListener("change", event => {
+      state.sort = event.target.value;
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
