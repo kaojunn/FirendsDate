@@ -297,29 +297,31 @@
     }
 
     .mobile-detail {
-      display: none;
       border: 1px solid var(--line);
       border-radius: 16px;
       padding: 14px;
       background: var(--panel-soft);
-      margin-top: 12px;
+      margin-top: 0;
       overflow: hidden;
       transform-origin: top center;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition:
+        max-height 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 220ms ease,
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        margin-top 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        padding-top 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        padding-bottom 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 220ms ease;
+      padding-top: 0;
+      padding-bottom: 0;
+      border-color: transparent;
     }
 
     .mobile-detail .detail-section:first-child {
       margin-top: 0;
-    }
-
-    @keyframes mobileDetailReveal {
-      from {
-        opacity: 0;
-        transform: translateY(-8px) scaleY(0.98);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scaleY(1);
-      }
     }
 
     .detail-actions {
@@ -365,9 +367,18 @@
         grid-template-columns: 1fr;
       }
 
+      .card.active {
+        background: var(--panel);
+      }
+
       .card.expanded .mobile-detail {
-        display: block;
-        animation: mobileDetailReveal 260ms cubic-bezier(0.22, 1, 0.36, 1);
+        max-height: 1200px;
+        opacity: 1;
+        transform: translateY(0);
+        margin-top: 12px;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        border-color: var(--line);
       }
     }
 
@@ -1840,7 +1851,7 @@
         const mobileHint = mobile
           ? `<div class="card-hint">${expanded ? "再次点击卡片可收起详情" : "点击卡片查看详情"}</div>`
           : "";
-        const mobileDetail = mobile && expanded
+        const mobileDetail = mobile
           ? `<div class="mobile-detail">${renderDetailContent(item, { mobile: true })}</div>`
           : "";
         return `
